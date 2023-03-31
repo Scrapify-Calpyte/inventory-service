@@ -1,0 +1,1 @@
+# scrapify-inventory-service
