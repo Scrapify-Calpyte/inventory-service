@@ -1,0 +1,10 @@
+[
+  {
+    "tenantName" : "default",
+    "schema" : "inventory"
+  },
+  {
+    "tenantName" : "inventory",
+    "schema" : "inventory"
+  }
+]
