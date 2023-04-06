@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/inventory")
 public class InventoryController {
@@ -27,6 +29,11 @@ public class InventoryController {
     @GetMapping("/by-id")
     public ResponseEntity<Inventory> findByUserId(@RequestParam("product") String productId , @RequestParam("address") String addressId){
         return new ResponseEntity<>(inventoryService.findByUserIdAndProductIdAndUserAddressId(productId, addressId),HttpStatus.OK);
+    }
+
+    @GetMapping("/by-product")
+    public ResponseEntity<List<Inventory>> findByProduct(@RequestParam("product") String productId){
+        return new ResponseEntity<>(inventoryService.findByProductId(productId),HttpStatus.OK);
     }
 
 }
