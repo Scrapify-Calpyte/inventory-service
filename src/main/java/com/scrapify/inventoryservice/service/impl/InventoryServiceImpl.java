@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -50,5 +51,10 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public Inventory findByUserIdAndProductIdAndUserAddressId(String productId, String addressId) {
         return inventoryRepository.findByProductIdAndUserAddressId(productId, addressId);
+    }
+
+    @Override
+    public List<Inventory> findByProductId(String productId) {
+        return inventoryRepository.findByProductId(productId);
     }
 }
