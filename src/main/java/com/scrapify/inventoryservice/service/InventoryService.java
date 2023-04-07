@@ -11,4 +11,6 @@ public interface InventoryService {
     Inventory findByUserIdAndProductIdAndUserAddressId(String productId, String addressId);
 
     List<Inventory> findByProductId(String productId);
+
+    List<Inventory> findByAddressId(String id);
 }

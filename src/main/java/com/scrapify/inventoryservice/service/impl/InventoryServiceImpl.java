@@ -1,5 +1,6 @@
 package com.scrapify.inventoryservice.service.impl;
 
+import com.scrapify.inventoryservice.dto.AddressDTO;
 import com.scrapify.inventoryservice.entity.Inventory;
 import com.scrapify.inventoryservice.repository.InventoryRepository;
 import com.scrapify.inventoryservice.service.InventoryService;
@@ -17,32 +18,32 @@ public class InventoryServiceImpl implements InventoryService {
     @Autowired
     private InventoryRepository inventoryRepository;
 
-//    @Autowired
-//    private MobileUserService mobileUserService;
+    @Autowired
+    private UserAddressService userAddressService;
 
     @Override
 //    @Transactional(isolation = Isolation.DEFAULT)
     public Inventory save(Inventory inventory) {
-        //MobileUserDTO mobileUser = mobileUserService.findByUserId(inventory.getUserId());
+        AddressDTO addressDTO = userAddressService.findById(inventory.getUserAddressId());
+        //MobileUserDTO mobileUser = userService.findById(addressDTO.getUser().getId());
         Inventory inventoryExist = inventoryRepository.findByProductIdAndUserAddressId(inventory.getProductId(),inventory.getUserAddressId());
         if(!ObjectUtils.isEmpty(inventoryExist)){
             inventoryExist.setStock(inventory.getStock());
             inventoryExist.setPrice(inventory.getPrice());
             inventoryExist.setUpdatedAt(new Date());
-            inventory.setUpdatedBy("admin");
-//            if(!ObjectUtils.isEmpty(mobileUser)){
-//                inventoryExist.setUpdatedBy(mobileUser.getEmail());
-//            }
+            //inventory.setUpdatedBy("admin");
+            if(!ObjectUtils.isEmpty(addressDTO)){
+                inventoryExist.setUpdatedBy(addressDTO.getUser().getEmail());
+            }
             inventoryRepository.save(inventoryExist);
         }
         else{
             inventory.setCreatedAt(new Date());
             inventory.setUpdatedAt(new Date());
-            inventory.setCreatedBy("admin");
-            inventory.setUpdatedBy("admin");
-//            if(!ObjectUtils.isEmpty(mobileUser)){
-
-//            }
+            if(!ObjectUtils.isEmpty(addressDTO)){
+                inventory.setCreatedBy(addressDTO.getUser().getEmail());
+                inventory.setUpdatedBy(addressDTO.getUser().getEmail());
+            }
             inventoryRepository.save(inventory);
         }
         return inventory;
@@ -56,5 +57,10 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public List<Inventory> findByProductId(String productId) {
         return inventoryRepository.findByProductId(productId);
+    }
+
+    @Override
+    public List<Inventory> findByAddressId(String id) {
+        return inventoryRepository.findByUserAddressId(id);
     }
 }
