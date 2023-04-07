@@ -36,4 +36,9 @@ public class InventoryController {
         return new ResponseEntity<>(inventoryService.findByProductId(productId),HttpStatus.OK);
     }
 
+    @GetMapping("/by-address")
+    public ResponseEntity<List<Inventory>> findByAddress(@RequestParam("address") String address){
+        return new ResponseEntity<>(inventoryService.findByAddressId(address),HttpStatus.OK);
+    }
+
 }
